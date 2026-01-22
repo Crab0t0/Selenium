@@ -61,4 +61,36 @@ class SeleniumTest {
         String text = driver.findElement(By.cssSelector("[data-test-id=order-success]")).getText();
         assertEquals("Ваша заявка успешно отправлена! Наш менеджер свяжется с вами в ближайшее время.", text.trim());
     }
+
+    @Test
+    void shouldTestV3() {
+
+        driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Василий Иванов");
+        driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys(" ");
+        driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
+        driver.findElement(By.className("button")).click();
+        String text = driver.findElement(By.cssSelector("[data-test-id=phone] span.input__sub")).getText();
+        assertEquals("Поле обязательно для заполнения", text.trim());
+    }
+
+    @Test
+    void shouldTestV4() {
+
+        driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Alex Alex");
+        driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+72345678900");
+        driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
+        driver.findElement(By.className("button")).click();
+        String text = driver.findElement(By.cssSelector("[data-test-id=name] span.input__sub")).getText();
+        assertEquals("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.", text.trim());
+    }
+
+    @Test
+    void shouldTestV5() {
+
+        driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Иванов Иван");
+        driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+72345678900");
+        driver.findElement(By.className("button")).click();
+        String text = driver.findElement(By.cssSelector("[data-test-id=agreement].input_invalid .checkbox__text")).getText();
+        assertEquals("Я соглашаюсь с условиями обработки и использования моих персональных данных и разрешаю сделать запрос в бюро кредитных историй", text.trim());
+    }
 }
